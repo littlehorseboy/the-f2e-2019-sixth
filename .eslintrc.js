@@ -18,10 +18,10 @@ module.exports = {
   extends: [
     'airbnb',
     'airbnb/hooks',
+    'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
   ],
   rules: {
-    'react/jsx-key': true,
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     '@typescript-eslint/indent': ['error', 2],
     'linebreak-style': ['error', 'windows'],

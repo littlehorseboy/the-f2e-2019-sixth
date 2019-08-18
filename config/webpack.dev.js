@@ -8,14 +8,15 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
   devServer: {
-    historyApiFallback: true,
     open: true,
+    historyApiFallback: true,
     overlay: {
       warnings: true,
       errors: true,
     },
     inline: true,
     hot: true,
+    port: 8080,
   },
   module: {
     rules: [

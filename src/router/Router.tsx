@@ -1,25 +1,92 @@
 import React from 'react';
-import { HashRouter, Route } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { HashRouter, Route, Link } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { CSSProperties } from '@material-ui/core/styles/withStyles';
+import Container from '@material-ui/core/Container';
+import Test from '../components/Test';
+import Test2 from '../components/Test2';
 
-const useStyles = makeStyles({
-  page: {
+const routes = [
+  { path: '/', name: 'home', Component: Test },
+  { path: '/rooms', name: 'home2', Component: Test2 },
+];
+
+const useStyles = makeStyles((theme): Record<'fade' | 'root' | 'routeContainer' | 'appBar'
+, CSSProperties | (() => CSSProperties)> => createStyles({
+  root: {
     fontFamily: 'system-ui, -apple-system, "Roboto", "Helvetica", "Arial", sans-serif',
   },
-});
+  appBar: {
+    borderBottom: '3px solid #3D321F',
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: theme.spacing(9),
+      paddingRight: theme.spacing(9),
+    },
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  routeContainer: {
+    position: 'relative',
+  },
+  fade: {
+    position: 'absolute',
+    transition: 'opacity 0.5s ease-in',
+    '&-enter': {
+      opacity: 0,
+    },
+    '&-enter-done': {
+      opacity: 1,
+    },
+    '&-exit': {
+      opacity: 1,
+    },
+    '&-exit-done': {
+      opacity: 0,
+    },
+  },
+}));
 
 export default function Router(): JSX.Element {
   const classes = useStyles();
-  const a = [1, 2, 4, 5, 6];
   return (
     <HashRouter>
-      <div className={classes.page}>
-        <span />
-        {[1, 2, 3].map((n): JSX.Element => (
+      <div className={classes.root}>
+        <Container maxWidth={false} className={classes.appBar}>
           <div>
-            <div>123</div>
+            Sheepy Hotel
+            <Link to="/">Sheepy Hotel</Link>
           </div>
-        ))}
+          <div>
+            <button type="button">中文</button>
+            <button type="button">漢堡</button>
+          </div>
+        </Container>
+
+        <div className={classes.routeContainer}>
+          {routes.map(({ path, Component }): JSX.Element => (
+            <Route key={path} exact path={path}>
+              {({ match }): JSX.Element => (
+                <CSSTransition
+                  in={match !== null}
+                  timeout={{
+                    enter: 300,
+                    exit: 100,
+                  }}
+                  classNames={classes.fade}
+                  unmountOnExit
+                >
+                  <div className={classes.fade}>
+                    <Component />
+                  </div>
+                </CSSTransition>
+              )}
+            </Route>
+          ))}
+        </div>
+
       </div>
     </HashRouter>
   );
