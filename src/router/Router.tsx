@@ -4,6 +4,9 @@ import { CSSTransition } from 'react-transition-group';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 import Main from '../pages/Main';
 import Test2 from '../components/Test2';
 
@@ -64,8 +67,10 @@ export default function Router(): JSX.Element {
             <Link to="/">Sheepy Hotel</Link>
           </div>
           <div>
-            <button type="button">中文</button>
-            <button type="button">漢堡</button>
+            <Button variant="outlined" color="primary">中文</Button>
+            <IconButton aria-label="menu">
+              <MenuIcon />
+            </IconButton>
           </div>
         </Container>
 
