@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import uuidv4 from 'uuid/v4';
 import classNames from 'classnames';
@@ -6,7 +6,6 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import SvgIcon from '@material-ui/core/SvgIcon';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import ManSvgIcon from '../components/icons/ManSvgIcon/ManSvgIcon';
 import BedBigSvgIcon from '../components/icons/BedBigSvgIcon/BedBigSvgIcon';
@@ -24,6 +23,7 @@ const DoubleRoom1380Img = require('../assets/images/DoubleRoom1380.png');
 
 const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer' | 'imagePhotoGrid'
 | 'imagePhoto' | 'cardContainer' | 'positionText' | 'imagePhotoAside' | 'subTitleContainer'
+| 'roomInfoContainer' | 'roomPriceContainer'
 , CSSProperties | (() => CSSProperties)> => createStyles({
   container: {
     '&:not(:last-child)': {
@@ -106,27 +106,69 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
     justifyContent: 'center',
     alignItems: 'center',
   },
+  roomInfoContainer: {
+    padding: theme.spacing(2),
+    '& > div:nth-child(1)': {
+      fontSize: 27,
+      color: '#3D321F',
+    },
+    '& > div:nth-child(2)': {
+      marginTop: theme.spacing(2),
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+  },
+  roomPriceContainer: {
+    color: '#3D321F',
+    '& > sub': {
+      fontSize: 20,
+    },
+    '& > span:nth-of-type(1)': {
+      marginLeft: theme.spacing(0.5),
+      color: '#3D321F',
+      fontFamily: 'serif',
+      fontSize: 32,
+      textDecoration: 'underline',
+    },
+    '& > span:nth-of-type(2)': {
+      color: '#3D321F',
+      fontSize: 20,
+      fontStyle: 'italic',
+    },
+  },
 }));
+
+interface RoomItem {
+  id: string;
+  imageUrl: string;
+  normalDayPrice: number;
+  holidayPrice: number;
+  name: string;
+}
 
 export default function Main(): JSX.Element {
   const classes = useStyles();
 
-  // useEffect((): void => {
-  //   Axios({
-  //     method: 'get',
-  //     url: 'https://challenge.thef2e.com/api/thef2e2019/stage6/rooms',
-  //     headers: {
-  //       Authorization: 'Bearer pj6Zo71utSu7169UgLSqS0qLr3sippW2rkISAy9B9DQ8Sd3nTIkNaBVQ9nNJ',
-  //       Accept: 'application/json',
-  //     },
-  //   })
-  //     .then((response) => {
-  //       debugger;
-  //     })
-  //     .catch((error) => {
+  const [rooms, setRooms] = useState<RoomItem[]>([]);
 
-  //     });
-  // }, []);
+  useEffect((): void => {
+    Axios({
+      method: 'get',
+      url: 'https://challenge.thef2e.com/api/thef2e2019/stage6/rooms',
+      headers: {
+        Authorization: 'Bearer pj6Zo71utSu7169UgLSqS0qLr3sippW2rkISAy9B9DQ8Sd3nTIkNaBVQ9nNJ',
+        Accept: 'application/json',
+      },
+    })
+      .then((response): void => {
+        if (response.data.success) {
+          setRooms(response.data.item);
+        }
+      })
+      .catch((error): void => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <>
@@ -168,11 +210,14 @@ export default function Main(): JSX.Element {
       </Container>
 
       <Container maxWidth={false} className={classes.container}>
+        {/* "Single Room", "Deluxe Single Room",
+          "Double Room", "Deluxe Double Room",
+          "Twin Room", "Deluxe Twin Room" */}
         <Grid container className={classes.imagePhotoContainer}>
           <Grid item xs={12} md={6} className={classes.imagePhotoGrid}>
             <div className={classes.cardContainer}>
               <div className={classes.imagePhoto} style={{ backgroundImage: `url(${DeluxeTwinRoomImg})` }} />
-              <div>
+              <div className={classes.roomInfoContainer}>
                 <div>Deluxe Twin Room</div>
                 <div>
                   <div>
@@ -186,7 +231,7 @@ export default function Main(): JSX.Element {
                       <BedSvgIcon key={uuidv4()} />
                     ))}
                   </div>
-                  <div>
+                  <div className={classes.roomPriceContainer}>
                     <sub>$</sub>
                     <span>3899</span>
                     <span>+</span>
@@ -217,6 +262,11 @@ export default function Main(): JSX.Element {
             </div>
           </Grid>
           <Grid item xs={12} md={4} className={classes.imagePhotoGrid}>
+            <div className={classes.cardContainer}>
+              <div className={classes.imagePhoto} style={{ backgroundImage: `url(${DoubleRoom1890Img})` }} />
+              <div>asd</div>
+            </div>
+
             <div className={classes.cardContainer}>
               <div className={classes.imagePhoto} style={{ backgroundImage: `url(${DoubleRoom1890Img})` }} />
               <div>asd</div>
