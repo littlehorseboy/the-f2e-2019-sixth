@@ -7,23 +7,19 @@ import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import ManSvgIcon from '../components/icons/ManSvgIcon/ManSvgIcon';
-import BedBigSvgIcon from '../components/icons/BedBigSvgIcon/BedBigSvgIcon';
-import BedSvgIcon from '../components/icons/BedSvgIcon/BedSvgIcon';
+import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
+import ManSvgIcon from '../../components/icons/ManSvgIcon/ManSvgIcon';
+import BedBigSvgIcon from '../../components/icons/BedBigSvgIcon/BedBigSvgIcon';
+import BedSvgIcon from '../../components/icons/BedSvgIcon/BedSvgIcon';
 
 /* eslint-disable @typescript-eslint/no-var-requires */
-const teaTableImg = require('../assets/images/teaTable.png');
-const DeluxeTwinRoomImg = require('../assets/images/DeluxeTwinRoom.png');
-const TwinRoomImg = require('../assets/images/TwinRoom.png');
-const DeluxeDoubbleRoomImg = require('../assets/images/DeluxeDoubbleRoom.png');
-const DoubleRoom2460Img = require('../assets/images/DoubleRoom2460.png');
-const DoubleRoom1890Img = require('../assets/images/DoubleRoom1890.png');
-const DoubleRoom1380Img = require('../assets/images/DoubleRoom1380.png');
+const teaTableImg = require('../../assets/images/teaTable.png');
 /* eslint-enable */
 
 const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer' | 'imagePhotoGrid'
-| 'imagePhoto' | 'imagePhoto100' | 'cardContainer' | 'verticalCardContainer' | 'positionText' | 'imagePhotoAside'
-| 'subTitleContainer' | 'roomInfoContainer' | 'roomPriceContainer'
+| 'imagePhoto' | 'imagePhoto100' | 'cardContainer' | 'verticalCardContainer' | 'verticalImagePhoto'
+| 'verticalRoomInfoContainer' | 'positionText' | 'imagePhotoAside' | 'subTitleContainer'
+| 'roomInfoContainer' | 'roomPriceContainer' | 'brandContainer' | 'footerContainer'
 , CSSProperties | (() => CSSProperties)> => createStyles({
   container: {
     '&:not(:last-child)': {
@@ -71,6 +67,20 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
       flexGrow: 1,
     },
   },
+  verticalImagePhoto: {
+    backgroundImage: `url(${teaTableImg})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  verticalRoomInfoContainer: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    '& > div:nth-child(2) > div:nth-child(2)': {
+      textAlign: 'right',
+    },
+  },
   positionText: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
@@ -92,10 +102,12 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
     justifyContent: 'space-between',
     alignItems: 'center',
     '& > div:nth-child(1) > svg': {
+      color: '#3D321F',
       fontSize: '7rem',
     },
     '& > div:nth-child(2)': {
       textAlign: 'center',
+      fontFamily: 'Georgia',
       '& > div:nth-child(1)': {
         fontSize: 39,
         color: '#A5A5A5',
@@ -106,6 +118,7 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
       },
     },
     '& > div:nth-child(3)': {
+      fontFamily: 'Georgia',
       fontSize: 17,
       color: '#3D321F',
     },
@@ -150,6 +163,36 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
       fontStyle: 'italic',
     },
   },
+  brandContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 300,
+    paddingBottom: 300,
+    '& > div:nth-of-type(1) > svg': {
+      color: '#3D321F',
+      fontSize: '7rem',
+    },
+    '& > div:nth-of-type(2)': {
+      fontFamily: 'Georgia',
+      fontStyle: 'italic',
+      fontSize: 36,
+      fontWeight: 'bold',
+    },
+  },
+  footerContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 90,
+    paddingBottom: 90,
+    color: '#3D321F',
+    '& svg': {
+      color: '#3D321F',
+      marginRight: 8,
+    },
+  },
 }));
 
 interface RoomItem {
@@ -176,7 +219,7 @@ export default function Main(): JSX.Element {
     })
       .then((response): void => {
         if (response.data.success) {
-          setRooms(response.data.item);
+          setRooms(response.data.items);
         }
       })
       .catch((error): void => {
@@ -202,7 +245,7 @@ export default function Main(): JSX.Element {
           <Grid item xs={12} md={4} className={classes.imagePhotoGrid}>
             <div className={classes.imagePhotoAside}>
               <div>
-                <LocationOnIcon />
+                <AirlineSeatFlatIcon />
               </div>
               <div>
                 <div>Occasionally</div>
@@ -228,178 +271,125 @@ export default function Main(): JSX.Element {
           "Double Room", "Deluxe Double Room",
           "Twin Room", "Deluxe Twin Room" */}
         <Grid container className={classes.imagePhotoContainer}>
-          <Grid item xs={12} md={6} className={classes.imagePhotoGrid}>
-            <div className={classes.cardContainer}>
-              <div className={classes.imagePhoto} style={{ backgroundImage: `url(${DeluxeTwinRoomImg})` }} />
-              <div className={classes.roomInfoContainer}>
-                <div>Deluxe Twin Room</div>
-                <div>
+          {rooms.slice(4, 6).map((room): JSX.Element => (
+            <Grid key={room.id} item xs={12} md={6} className={classes.imagePhotoGrid}>
+              <div className={classes.cardContainer}>
+                <div className={classes.imagePhoto} style={{ backgroundImage: `url(${room.imageUrl})` }} />
+                <div className={classes.roomInfoContainer}>
+                  <div>{room.name}</div>
                   <div>
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <ManSvgIcon key={uuidv4()} />
-                    ))}
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <BedBigSvgIcon key={uuidv4()} />
-                    ))}
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <BedSvgIcon key={uuidv4()} />
-                    ))}
-                  </div>
-                  <div className={classes.roomPriceContainer}>
-                    <sub>$</sub>
-                    <span>3899</span>
-                    <span>+</span>
+                    <div>
+                      {Array(room.name.includes('Single') ? 1 : 2).fill(null).map((): JSX.Element => (
+                        <ManSvgIcon key={uuidv4()} />
+                      ))}
+                      {Array(room.name.includes('Double') ? 1 : 0).fill(null).map((): JSX.Element => (
+                        <BedBigSvgIcon key={uuidv4()} />
+                      ))}
+                      {Array(room.name.includes('Twin') ? 2 : 0).fill(null).map((): JSX.Element => (
+                        <BedSvgIcon key={uuidv4()} />
+                      ))}
+                      {Array(room.name.includes('Single') ? 1 : 0).fill(null).map((): JSX.Element => (
+                        <BedSvgIcon key={uuidv4()} />
+                      ))}
+                    </div>
+                    <div className={classes.roomPriceContainer}>
+                      <sub>$</sub>
+                      <span>{room.normalDayPrice}</span>
+                      <span>+</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Grid>
-          <Grid item xs={12} md={6} className={classes.imagePhotoGrid}>
-            <div className={classes.cardContainer}>
-              <div className={classes.imagePhoto} style={{ backgroundImage: `url(${TwinRoomImg})` }} />
-              <div className={classes.roomInfoContainer}>
-                <div>Deluxe Twin Room</div>
-                <div>
-                  <div>
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <ManSvgIcon key={uuidv4()} />
-                    ))}
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <BedBigSvgIcon key={uuidv4()} />
-                    ))}
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <BedSvgIcon key={uuidv4()} />
-                    ))}
-                  </div>
-                  <div className={classes.roomPriceContainer}>
-                    <sub>$</sub>
-                    <span>3899</span>
-                    <span>+</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Grid>
+            </Grid>
+          ))}
         </Grid>
 
         <Grid container className={classes.imagePhotoContainer}>
-          <Grid item xs={12} md={4} className={classes.imagePhotoGrid}>
-            <div className={classes.cardContainer}>
-              <div className={classes.imagePhoto} style={{ backgroundImage: `url(${DeluxeDoubbleRoomImg})` }} />
-              <div className={classes.roomInfoContainer}>
-                <div>Deluxe Twin Room</div>
-                <div>
+          {rooms.slice(2, 4).map((room): JSX.Element => (
+            <Grid key={room.id} item xs={12} md={4} className={classes.imagePhotoGrid}>
+              <div className={classes.cardContainer}>
+                <div className={classes.imagePhoto} style={{ backgroundImage: `url(${room.imageUrl})` }} />
+                <div className={classes.roomInfoContainer}>
+                  <div>{room.name}</div>
                   <div>
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <ManSvgIcon key={uuidv4()} />
-                    ))}
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <BedBigSvgIcon key={uuidv4()} />
-                    ))}
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <BedSvgIcon key={uuidv4()} />
-                    ))}
-                  </div>
-                  <div className={classes.roomPriceContainer}>
-                    <sub>$</sub>
-                    <span>3899</span>
-                    <span>+</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Grid>
-          <Grid item xs={12} md={4} className={classes.imagePhotoGrid}>
-            <div className={classes.cardContainer}>
-              <div className={classes.imagePhoto} style={{ backgroundImage: `url(${DoubleRoom2460Img})` }} />
-              <div className={classes.roomInfoContainer}>
-                <div>Deluxe Twin Room</div>
-                <div>
-                  <div>
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <ManSvgIcon key={uuidv4()} />
-                    ))}
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <BedBigSvgIcon key={uuidv4()} />
-                    ))}
-                    {Array(3).fill(null).map((): JSX.Element => (
-                      <BedSvgIcon key={uuidv4()} />
-                    ))}
-                  </div>
-                  <div className={classes.roomPriceContainer}>
-                    <sub>$</sub>
-                    <span>3899</span>
-                    <span>+</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Grid>
-          <Grid item xs={12} md={4} className={classes.imagePhotoGrid}>
-            <div className={classes.imagePhotoGrid}>
-              <div className={classes.verticalCardContainer}>
-                <div className={classes.cardContainer}>
-                  <div className={classes.imagePhoto100} style={{ backgroundImage: `url(${DoubleRoom1890Img})` }} />
-                  <div className={classes.roomInfoContainer}>
-                    <div>Deluxe Twin Room</div>
                     <div>
-                      <div>
-                        {Array(3).fill(null).map((): JSX.Element => (
-                          <ManSvgIcon key={uuidv4()} />
-                        ))}
-                        {Array(3).fill(null).map((): JSX.Element => (
-                          <BedBigSvgIcon key={uuidv4()} />
-                        ))}
-                        {Array(3).fill(null).map((): JSX.Element => (
-                          <BedSvgIcon key={uuidv4()} />
-                        ))}
-                      </div>
-                      <div className={classes.roomPriceContainer}>
-                        <sub>$</sub>
-                        <span>3899</span>
-                        <span>+</span>
-                      </div>
+                      {Array(room.name.includes('Single') ? 1 : 2).fill(null).map((): JSX.Element => (
+                        <ManSvgIcon key={uuidv4()} />
+                      ))}
+                      {Array(room.name.includes('Double') ? 1 : 0).fill(null).map((): JSX.Element => (
+                        <BedBigSvgIcon key={uuidv4()} />
+                      ))}
+                      {Array(room.name.includes('Twin') ? 2 : 0).fill(null).map((): JSX.Element => (
+                        <BedSvgIcon key={uuidv4()} />
+                      ))}
+                      {Array(room.name.includes('Single') ? 1 : 0).fill(null).map((): JSX.Element => (
+                        <BedSvgIcon key={uuidv4()} />
+                      ))}
+                    </div>
+                    <div className={classes.roomPriceContainer}>
+                      <sub>$</sub>
+                      <span>{room.normalDayPrice}</span>
+                      <span>+</span>
                     </div>
                   </div>
                 </div>
+              </div>
+            </Grid>
+          ))}
 
-                <div className={classes.cardContainer}>
-                  <div className={classes.imagePhoto100} style={{ backgroundImage: `url(${DoubleRoom1890Img})` }} />
-                  <div className={classes.roomInfoContainer}>
-                    <div>Deluxe Twin Room</div>
+          <Grid item xs={12} md={4} className={classes.imagePhotoGrid}>
+            <div style={{ height: '100%' }}>
+              {rooms.slice(0, 2).map((room): JSX.Element => (
+                <div key={room.id} className={classes.cardContainer} style={{ height: '50%', display: 'flex' }}>
+                  <div
+                    className={classes.verticalImagePhoto}
+                    style={{ backgroundImage: `url(${room.imageUrl})`, flexGrow: 1 }}
+                  />
+                  <div className={classes.verticalRoomInfoContainer}>
+                    <div>{room.name}</div>
                     <div>
                       <div>
-                        {Array(3).fill(null).map((): JSX.Element => (
+                        {Array(room.name.includes('Single') ? 1 : 2).fill(null).map((): JSX.Element => (
                           <ManSvgIcon key={uuidv4()} />
                         ))}
-                        {Array(3).fill(null).map((): JSX.Element => (
+                        {Array(room.name.includes('Double') ? 1 : 0).fill(null).map((): JSX.Element => (
                           <BedBigSvgIcon key={uuidv4()} />
                         ))}
-                        {Array(3).fill(null).map((): JSX.Element => (
+                        {Array(room.name.includes('Twin') ? 2 : 0).fill(null).map((): JSX.Element => (
+                          <BedSvgIcon key={uuidv4()} />
+                        ))}
+                        {Array(room.name.includes('Single') ? 1 : 0).fill(null).map((): JSX.Element => (
                           <BedSvgIcon key={uuidv4()} />
                         ))}
                       </div>
                       <div className={classes.roomPriceContainer}>
                         <sub>$</sub>
-                        <span>3899</span>
+                        <span>{room.normalDayPrice}</span>
                         <span>+</span>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           </Grid>
         </Grid>
       </Container>
 
       <Container maxWidth={false} className={classes.container}>
-        Sheepy Hotel
+        <div className={classes.brandContainer}>
+          <div>
+            <AirlineSeatFlatIcon />
+          </div>
+          <div>
+            Sheepy Hotel
+          </div>
+        </div>
       </Container>
 
       <Container maxWidth={false} className={classes.container}>
-        <div>
-          <LocationOnIcon />
+        <div className={classes.footerContainer}>
+          <AirlineSeatFlatIcon />
           © 2019 Sheepy Hotel, Inc. All rights reserved.
         </div>
       </Container>

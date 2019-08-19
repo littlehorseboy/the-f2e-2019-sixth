@@ -7,12 +7,13 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Main from '../pages/Main';
-import Test2 from '../components/Test2';
+import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
+import Main from '../pages/Main/Main';
+import Rooms from '../pages/Rooms/Rooms';
 
 const routes = [
   { path: '/', name: 'home', Component: Main },
-  { path: '/rooms', name: 'home2', Component: Test2 },
+  { path: '/rooms', name: 'rooms', Component: Rooms },
 ];
 
 const useStyles = makeStyles((theme): Record<'root' | 'appBar' | 'routeContainer' | 'fade'
@@ -32,6 +33,20 @@ const useStyles = makeStyles((theme): Record<'root' | 'appBar' | 'routeContainer
     },
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    '& > div:nth-of-type(1) > svg': {
+      color: '#3D321F',
+      fontSize: 36,
+    },
+    '& > div:nth-of-type(1) > a': {
+      marginLeft: 8,
+      color: '#3D321F',
+      fontFamily: 'Georgia',
+      fontStyle: 'italic',
+      fontSize: 36,
+      fontWeight: 'bold',
+      textDecoration: 'none',
+    },
   },
   routeContainer: {
     position: 'relative',
@@ -63,7 +78,7 @@ export default function Router(): JSX.Element {
       <div className={classes.root}>
         <Container maxWidth={false} className={classes.appBar}>
           <div>
-            Sheepy Hotel
+            <AirlineSeatFlatIcon />
             <Link to="/">Sheepy Hotel</Link>
           </div>
           <div>
