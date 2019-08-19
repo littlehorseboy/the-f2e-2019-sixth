@@ -17,9 +17,9 @@ const teaTableImg = require('../../assets/images/teaTable.png');
 /* eslint-enable */
 
 const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer' | 'imagePhotoGrid'
-| 'imagePhoto' | 'imagePhoto100' | 'cardContainer' | 'verticalCardContainer' | 'verticalImagePhoto'
-| 'verticalRoomInfoContainer' | 'positionText' | 'imagePhotoAside' | 'subTitleContainer'
-| 'roomInfoContainer' | 'roomPriceContainer' | 'brandContainer' | 'footerContainer'
+| 'imagePhoto' | 'cardContainer' | 'verticalImagePhoto' | 'verticalRoomInfoContainer'
+| 'positionText' | 'imagePhotoAside' | 'subTitleContainer' | 'roomInfoContainer'
+| 'roomPriceContainer' | 'brandContainer' | 'footerContainer'
 , CSSProperties | (() => CSSProperties)> => createStyles({
   container: {
     '&:not(:last-child)': {
@@ -48,23 +48,10 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
     backgroundPosition: 'center',
     minHeight: 615,
   },
-  imagePhoto100: {
-    backgroundImage: `url(${teaTableImg})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '100%',
-  },
   cardContainer: {
     padding: theme.spacing(1.5),
     '&:not(:last-child)': {
       borderBottom: '1px solid #DCD8D2',
-    },
-  },
-  verticalCardContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    '& > div': {
-      flexGrow: 1,
     },
   },
   verticalImagePhoto: {
