@@ -22,8 +22,8 @@ const DoubleRoom1380Img = require('../assets/images/DoubleRoom1380.png');
 /* eslint-enable */
 
 const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer' | 'imagePhotoGrid'
-| 'imagePhoto' | 'cardContainer' | 'positionText' | 'imagePhotoAside' | 'subTitleContainer'
-| 'roomInfoContainer' | 'roomPriceContainer'
+| 'imagePhoto' | 'imagePhoto100' | 'cardContainer' | 'verticalCardContainer' | 'positionText' | 'imagePhotoAside'
+| 'subTitleContainer' | 'roomInfoContainer' | 'roomPriceContainer'
 , CSSProperties | (() => CSSProperties)> => createStyles({
   container: {
     '&:not(:last-child)': {
@@ -52,10 +52,23 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
     backgroundPosition: 'center',
     minHeight: 615,
   },
+  imagePhoto100: {
+    backgroundImage: `url(${teaTableImg})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height: '100%',
+  },
   cardContainer: {
     padding: theme.spacing(1.5),
     '&:not(:last-child)': {
       borderBottom: '1px solid #DCD8D2',
+    },
+  },
+  verticalCardContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    '& > div': {
+      flexGrow: 1,
     },
   },
   positionText: {
@@ -127,8 +140,9 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
       marginLeft: theme.spacing(0.5),
       color: '#3D321F',
       fontFamily: 'serif',
-      fontSize: 32,
-      textDecoration: 'underline',
+      fontSize: 36,
+      letterSpacing: -2,
+      borderBottom: '1px solid #3D321F',
     },
     '& > span:nth-of-type(2)': {
       color: '#3D321F',
@@ -243,7 +257,27 @@ export default function Main(): JSX.Element {
           <Grid item xs={12} md={6} className={classes.imagePhotoGrid}>
             <div className={classes.cardContainer}>
               <div className={classes.imagePhoto} style={{ backgroundImage: `url(${TwinRoomImg})` }} />
-              <div>asd</div>
+              <div className={classes.roomInfoContainer}>
+                <div>Deluxe Twin Room</div>
+                <div>
+                  <div>
+                    {Array(3).fill(null).map((): JSX.Element => (
+                      <ManSvgIcon key={uuidv4()} />
+                    ))}
+                    {Array(3).fill(null).map((): JSX.Element => (
+                      <BedBigSvgIcon key={uuidv4()} />
+                    ))}
+                    {Array(3).fill(null).map((): JSX.Element => (
+                      <BedSvgIcon key={uuidv4()} />
+                    ))}
+                  </div>
+                  <div className={classes.roomPriceContainer}>
+                    <sub>$</sub>
+                    <span>3899</span>
+                    <span>+</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </Grid>
         </Grid>
@@ -252,24 +286,108 @@ export default function Main(): JSX.Element {
           <Grid item xs={12} md={4} className={classes.imagePhotoGrid}>
             <div className={classes.cardContainer}>
               <div className={classes.imagePhoto} style={{ backgroundImage: `url(${DeluxeDoubbleRoomImg})` }} />
-              <div>asd</div>
+              <div className={classes.roomInfoContainer}>
+                <div>Deluxe Twin Room</div>
+                <div>
+                  <div>
+                    {Array(3).fill(null).map((): JSX.Element => (
+                      <ManSvgIcon key={uuidv4()} />
+                    ))}
+                    {Array(3).fill(null).map((): JSX.Element => (
+                      <BedBigSvgIcon key={uuidv4()} />
+                    ))}
+                    {Array(3).fill(null).map((): JSX.Element => (
+                      <BedSvgIcon key={uuidv4()} />
+                    ))}
+                  </div>
+                  <div className={classes.roomPriceContainer}>
+                    <sub>$</sub>
+                    <span>3899</span>
+                    <span>+</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </Grid>
           <Grid item xs={12} md={4} className={classes.imagePhotoGrid}>
             <div className={classes.cardContainer}>
               <div className={classes.imagePhoto} style={{ backgroundImage: `url(${DoubleRoom2460Img})` }} />
-              <div>asd</div>
+              <div className={classes.roomInfoContainer}>
+                <div>Deluxe Twin Room</div>
+                <div>
+                  <div>
+                    {Array(3).fill(null).map((): JSX.Element => (
+                      <ManSvgIcon key={uuidv4()} />
+                    ))}
+                    {Array(3).fill(null).map((): JSX.Element => (
+                      <BedBigSvgIcon key={uuidv4()} />
+                    ))}
+                    {Array(3).fill(null).map((): JSX.Element => (
+                      <BedSvgIcon key={uuidv4()} />
+                    ))}
+                  </div>
+                  <div className={classes.roomPriceContainer}>
+                    <sub>$</sub>
+                    <span>3899</span>
+                    <span>+</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </Grid>
           <Grid item xs={12} md={4} className={classes.imagePhotoGrid}>
-            <div className={classes.cardContainer}>
-              <div className={classes.imagePhoto} style={{ backgroundImage: `url(${DoubleRoom1890Img})` }} />
-              <div>asd</div>
-            </div>
+            <div className={classes.imagePhotoGrid}>
+              <div className={classes.verticalCardContainer}>
+                <div className={classes.cardContainer}>
+                  <div className={classes.imagePhoto100} style={{ backgroundImage: `url(${DoubleRoom1890Img})` }} />
+                  <div className={classes.roomInfoContainer}>
+                    <div>Deluxe Twin Room</div>
+                    <div>
+                      <div>
+                        {Array(3).fill(null).map((): JSX.Element => (
+                          <ManSvgIcon key={uuidv4()} />
+                        ))}
+                        {Array(3).fill(null).map((): JSX.Element => (
+                          <BedBigSvgIcon key={uuidv4()} />
+                        ))}
+                        {Array(3).fill(null).map((): JSX.Element => (
+                          <BedSvgIcon key={uuidv4()} />
+                        ))}
+                      </div>
+                      <div className={classes.roomPriceContainer}>
+                        <sub>$</sub>
+                        <span>3899</span>
+                        <span>+</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-            <div className={classes.cardContainer}>
-              <div className={classes.imagePhoto} style={{ backgroundImage: `url(${DoubleRoom1890Img})` }} />
-              <div>asd</div>
+                <div className={classes.cardContainer}>
+                  <div className={classes.imagePhoto100} style={{ backgroundImage: `url(${DoubleRoom1890Img})` }} />
+                  <div className={classes.roomInfoContainer}>
+                    <div>Deluxe Twin Room</div>
+                    <div>
+                      <div>
+                        {Array(3).fill(null).map((): JSX.Element => (
+                          <ManSvgIcon key={uuidv4()} />
+                        ))}
+                        {Array(3).fill(null).map((): JSX.Element => (
+                          <BedBigSvgIcon key={uuidv4()} />
+                        ))}
+                        {Array(3).fill(null).map((): JSX.Element => (
+                          <BedSvgIcon key={uuidv4()} />
+                        ))}
+                      </div>
+                      <div className={classes.roomPriceContainer}>
+                        <sub>$</sub>
+                        <span>3899</span>
+                        <span>+</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </Grid>
         </Grid>
