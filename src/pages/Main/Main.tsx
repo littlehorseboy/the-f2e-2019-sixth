@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import uuidv4 from 'uuid/v4';
 import classNames from 'classnames';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
@@ -11,6 +11,8 @@ import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
 import ManSvgIcon from '../../components/icons/ManSvgIcon/ManSvgIcon';
 import BedBigSvgIcon from '../../components/icons/BedBigSvgIcon/BedBigSvgIcon';
 import BedSvgIcon from '../../components/icons/BedSvgIcon/BedSvgIcon';
+import { storeTypes } from '../../reducers/configureStore';
+import { RoomsItemI } from '../../reducers/rooms/rooms';
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const teaTableImg = require('../../assets/images/teaTable.png');
@@ -193,26 +195,9 @@ interface RoomItem {
 export default function Main(): JSX.Element {
   const classes = useStyles();
 
-  const [rooms, setRooms] = useState<RoomItem[]>([]);
-
-  useEffect((): void => {
-    Axios({
-      method: 'get',
-      url: 'https://challenge.thef2e.com/api/thef2e2019/stage6/rooms',
-      headers: {
-        Authorization: 'Bearer pj6Zo71utSu7169UgLSqS0qLr3sippW2rkISAy9B9DQ8Sd3nTIkNaBVQ9nNJ',
-        Accept: 'application/json',
-      },
-    })
-      .then((response): void => {
-        if (response.data.success) {
-          setRooms(response.data.items);
-        }
-      })
-      .catch((error): void => {
-        console.log(error);
-      });
-  }, []);
+  const rooms = useSelector((
+    state: storeTypes,
+  ): RoomsItemI[] => state.roomsReducer.rooms);
 
   return (
     <>

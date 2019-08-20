@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { HashRouter, Route, Link } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
@@ -10,6 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
 import Main from '../pages/Main/Main';
 import Rooms from '../pages/Rooms/Rooms';
+import { fetchRooms } from '../actions/rooms/rooms';
 
 const routes = [
   { path: '/', name: 'home', Component: Main },
@@ -73,6 +75,13 @@ const useStyles = makeStyles((theme): Record<'root' | 'appBar' | 'routeContainer
 
 export default function Router(): JSX.Element {
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+
+  useEffect((): void => {
+    dispatch(fetchRooms());
+  }, []);
+
   return (
     <HashRouter>
       <div className={classes.root}>

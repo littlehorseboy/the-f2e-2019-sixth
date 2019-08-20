@@ -1,22 +1,39 @@
 import { roomsActionTypes, FETCH_ROOMS, FETCH_ROOMS_FULFILLED } from '../../actions/rooms/rooms';
 
-export interface RoomsI {
-  count: number;
+export interface RoomsItemI {
+  id: string;
+  imageUrl: string;
+  normalDayPrice: number;
+  holidayPrice: number;
+  name: string;
 }
 
-const initState = {
-  count: 0,
+export interface RoomsI {
+  rooms: RoomsItemI[];
+  loading: boolean;
+}
+
+const initState: RoomsI = {
+  rooms: [],
+  loading: false,
 };
 
 const reducer = (state = initState, action: roomsActionTypes): RoomsI => {
   switch (action.type) {
     case FETCH_ROOMS:
       return {
-        count: state.count + 1,
+        ...state,
+        rooms: [],
+        loading: true,
       };
     case FETCH_ROOMS_FULFILLED:
       return {
-        count: state.count + 2,
+        ...state,
+        rooms: [
+          ...state.rooms,
+          ...action.payload.rooms,
+        ],
+        loading: action.payload.loading,
       };
     default:
       return state;

@@ -23,6 +23,7 @@ module.exports = {
   ],
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
+    'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/indent': ['error', 2],
     'linebreak-style': ['error', 'windows'],
   },

@@ -1,16 +1,28 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { createLogger } from 'redux-logger';
+import { combineEpics, createEpicMiddleware } from 'redux-observable';
+import roomsReducer from './rooms/rooms';
+import { roomsEpic } from '../actions/rooms/rooms';
 
 const rootReducer = combineReducers({
-
+  roomsReducer,
 });
+
+const rootEpic = combineEpics(roomsEpic);
+
+const epicMiddleware = createEpicMiddleware();
 
 const loggerMiddleware = createLogger();
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(loggerMiddleware),
+  applyMiddleware(
+    epicMiddleware,
+    loggerMiddleware,
+  ),
 );
+
+epicMiddleware.run(rootEpic);
 
 export type storeTypes = ReturnType<typeof rootReducer>;
 
