@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 import { RoomsItemI } from '../../reducers/rooms/rooms';
@@ -46,7 +46,7 @@ export const roomsEpic: Epic<roomsActionTypes> = (action$): any => action$.pipe(
           ? { rooms: response.data.items, loading: false }
           : { rooms: [], loading: true },
       )))
-      .pipe(catchError((error) => ofType(FETCH_ROOMS))),
+      .pipe(catchError((error): Observable<never> => Observable.throw(error))),
   ),
 );
 

@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
+import { useSelector } from 'react-redux';
 import uuidv4 from 'uuid/v4';
 import classNames from 'classnames';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
 import ManSvgIcon from '../../components/icons/ManSvgIcon/ManSvgIcon';
 import BedBigSvgIcon from '../../components/icons/BedBigSvgIcon/BedBigSvgIcon';
 import BedSvgIcon from '../../components/icons/BedSvgIcon/BedSvgIcon';
+import { storeTypes } from '../../reducers/configureStore';
+import { RoomsItemI } from '../../reducers/rooms/rooms';
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const teaTableImg = require('../../assets/images/teaTable.png');
 /* eslint-enable */
 
-const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer' | 'imagePhotoGrid'
+const useStyles = makeStyles((theme): Record<'container' | 'gridButton' | 'imagePhotoContainer' | 'imagePhotoGrid'
 | 'imagePhoto' | 'imagePhoto100' | 'cardContainer' | 'verticalCardContainer' | 'verticalImagePhoto'
 | 'verticalRoomInfoContainer' | 'positionText' | 'imagePhotoAside' | 'subTitleContainer'
 | 'roomInfoContainer' | 'roomPriceContainer' | 'brandContainer' | 'footerContainer'
@@ -29,6 +32,18 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
       paddingLeft: theme.spacing(9),
       paddingRight: theme.spacing(9),
     },
+  },
+  gridButton: {
+    paddingTop: 48,
+    paddingBottom: 48,
+    fontFamily: 'Regular',
+    fontSize: 18,
+    color: '#3D321F',
+    border: '1px solid #DCD8D2',
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   imagePhotoContainer: {
     borderLeft: '1px solid #DCD8D2',
@@ -165,20 +180,14 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
   },
   brandContainer: {
     display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 300,
-    paddingBottom: 300,
-    '& > div:nth-of-type(1) > svg': {
+    paddingTop: 200,
+    paddingBottom: 200,
+    color: '#3D321F',
+    '& svg': {
       color: '#3D321F',
-      fontSize: '7rem',
-    },
-    '& > div:nth-of-type(2)': {
-      fontFamily: 'Georgia',
-      fontStyle: 'italic',
-      fontSize: 36,
-      fontWeight: 'bold',
+      marginRight: 8,
     },
   },
   footerContainer: {
@@ -206,54 +215,86 @@ interface RoomItem {
 export default function Main(): JSX.Element {
   const classes = useStyles();
 
-  const [rooms, setRooms] = useState<RoomItem[]>([]);
-
-  useEffect((): void => {
-    Axios({
-      method: 'get',
-      url: 'https://challenge.thef2e.com/api/thef2e2019/stage6/rooms',
-      headers: {
-        Authorization: 'Bearer pj6Zo71utSu7169UgLSqS0qLr3sippW2rkISAy9B9DQ8Sd3nTIkNaBVQ9nNJ',
-        Accept: 'application/json',
-      },
-    })
-      .then((response): void => {
-        if (response.data.success) {
-          setRooms(response.data.items);
-        }
-      })
-      .catch((error): void => {
-        console.log(error);
-      });
-  }, []);
+  const rooms = useSelector((
+    state: storeTypes,
+  ): RoomsItemI[] => state.roomsReducer.rooms);
 
   return (
     <>
       <Container maxWidth={false} className={classes.container}>
+        <Grid container>
+          {rooms.map((room): JSX.Element => (
+            <Grid key={room.id} item xs={6} sm={4} md={2} className={classes.gridButton}>
+              {room.name}
+            </Grid>
+          ))}
+        </Grid>
+
         <Grid container className={classes.imagePhotoContainer}>
-          <Grid item xs={12} md={8} className={classes.imagePhotoGrid}>
+          <Grid item xs={12} className={classes.imagePhotoGrid}>
             <div className={classes.cardContainer}>
               <div className={classes.imagePhoto} />
             </div>
-            <div className={classes.cardContainer}>
-              <div className={classes.positionText}>
-                <LocationOnIcon />
-                151 3rd St, San Francisco
-              </div>
+          </Grid>
+        </Grid>
+
+        <Grid container>
+          <Grid item xs={12} sm={3} md={4}>
+            <div>
+              Room type
+              <ManSvgIcon />
+              <ManSvgIcon />
+              <ManSvgIcon />
+              <ManSvgIcon />
+            </div>
+            <div>
+              <ManSvgIcon />
+                Free wifi
+              <ManSvgIcon />
+              Breakfast include
+            </div>
+            <div>
+              <div>Mini Bar</div>
+              <div>Mini Bar</div>
+              <div>Mini Bar</div>
+              <div>Mini Bar</div>
+              <div>Mini Bar</div>
+              <div>Mini Bar</div>
+              <div>Mini Bar</div>
+              <div>Mini Bar</div>
             </div>
           </Grid>
-          <Grid item xs={12} md={4} className={classes.imagePhotoGrid}>
-            <div className={classes.imagePhotoAside}>
-              <div>
-                <AirlineSeatFlatIcon />
-              </div>
-              <div>
-                <div>Occasionally</div>
-                <div>Do go gentle</div>
-                <div>Into that</div>
-                <div>Good night</div>
-              </div>
-              <div>- only in the Sheepy Hotel</div>
+          <Grid item xs={12} sm={9} md={8}>
+            <div>文章巴拉巴拉</div>
+            <div>
+              <input />
+              <input />
+              <input />
+            </div>
+            <div>
+              <Grid container>
+                <Grid item xs={12} sm={3} md={4}>
+                  <input type="date" />
+                  <input type="date" />
+                </Grid>
+                <Grid item xs={12} sm={9} md={8}>
+                  <ul>
+                    <li>2019/09/15 ~ 2019/9/17</li>
+                    <li>1 adult</li>
+                    <li>2 night</li>
+                  </ul>
+                  <div>
+                    <sup>$</sup>
+                    <span>2780</span>
+                  </div>
+                </Grid>
+              </Grid>
+            </div>
+
+            <div>
+              <input />
+              <input />
+              <Button>Reserve</Button>
             </div>
           </Grid>
         </Grid>
@@ -261,20 +302,13 @@ export default function Main(): JSX.Element {
 
       <Container maxWidth={false} className={classes.container}>
         <div className={classes.brandContainer}>
-          <div>
-            <AirlineSeatFlatIcon />
-          </div>
-          <div>
-            Sheepy Hotel
-          </div>
+          <AirlineSeatFlatIcon />
+          © 2019 Sheepy Hotel, Inc. All rights reserved.
         </div>
       </Container>
 
       <Container maxWidth={false} className={classes.container}>
-        <div className={classes.footerContainer}>
-          <AirlineSeatFlatIcon />
-          © 2019 Sheepy Hotel, Inc. All rights reserved.
-        </div>
+        <div className={classes.footerContainer} />
       </Container>
     </>
   );
