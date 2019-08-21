@@ -7,7 +7,10 @@ import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
+import SheepSvgIcon from '../../components/icons/SheepSvgIcon/SheepSvgIcon';
+import SheepyHotelSvgIcon from '../../components/icons/SheepyHotelSvgIcon/SheepyHotelSvgIcon';
+import SheepWhiteSvgIcon from '../../components/icons/SheepWhiteSvgIcon/SheepWhiteSvgIcon';
+import SheepSmallSvgIcon from '../../components/icons/SheepSmallSvgIcon/SheepSmallSvgIcon';
 import ManSvgIcon from '../../components/icons/ManSvgIcon/ManSvgIcon';
 import BedBigSvgIcon from '../../components/icons/BedBigSvgIcon/BedBigSvgIcon';
 import BedSvgIcon from '../../components/icons/BedSvgIcon/BedSvgIcon';
@@ -80,6 +83,7 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
     color: '#3D321F',
     '& > svg': {
       color: '#3D321F',
+      marginRight: 16,
     },
   },
   imagePhotoAside: {
@@ -92,7 +96,7 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
     alignItems: 'center',
     '& > div:nth-child(1) > svg': {
       color: '#3D321F',
-      fontSize: '7rem',
+      fontSize: '12rem',
     },
     '& > div:nth-child(2)': {
       textAlign: 'center',
@@ -209,7 +213,7 @@ export default function Main(): JSX.Element {
           <Grid item xs={12} md={4} className={classes.imagePhotoGrid}>
             <div className={classes.imagePhotoAside}>
               <div>
-                <AirlineSeatFlatIcon />
+                <SheepWhiteSvgIcon />
               </div>
               <div>
                 <div>Occasionally</div>
@@ -343,17 +347,17 @@ export default function Main(): JSX.Element {
       <Container maxWidth={false} className={classes.container}>
         <div className={classes.brandContainer}>
           <div>
-            <AirlineSeatFlatIcon />
+            <SheepSvgIcon />
           </div>
           <div>
-            Sheepy Hotel
+            <SheepyHotelSvgIcon />
           </div>
         </div>
       </Container>
 
       <Container maxWidth={false} className={classes.container}>
         <div className={classes.footerContainer}>
-          <AirlineSeatFlatIcon />
+          <SheepSmallSvgIcon />
           © 2019 Sheepy Hotel, Inc. All rights reserved.
         </div>
       </Container>

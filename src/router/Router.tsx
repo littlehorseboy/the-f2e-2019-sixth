@@ -8,7 +8,8 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import AirlineSeatFlatIcon from '@material-ui/icons/AirlineSeatFlat';
+import SheepSvgIcon from '../components/icons/SheepSvgIcon/SheepSvgIcon';
+import SheepyHotelSvgIcon from '../components/icons/SheepyHotelSvgIcon/SheepyHotelSvgIcon';
 import Main from '../pages/Main/Main';
 import Rooms from '../pages/Rooms/Rooms';
 import { fetchRooms } from '../actions/rooms/rooms';
@@ -36,9 +37,14 @@ const useStyles = makeStyles((theme): Record<'root' | 'appBar' | 'routeContainer
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    '& > div:nth-of-type(1)': {
+      display: 'flex',
+      alignItems: 'center',
+      color: '#3D321F',
+    },
     '& > div:nth-of-type(1) > svg': {
       color: '#3D321F',
-      fontSize: 36,
+      fontSize: 80,
     },
     '& > div:nth-of-type(1) > a': {
       marginLeft: 8,
@@ -48,6 +54,12 @@ const useStyles = makeStyles((theme): Record<'root' | 'appBar' | 'routeContainer
       fontSize: 36,
       fontWeight: 'bold',
       textDecoration: 'none',
+    },
+    '& > div:nth-of-type(2) > button:nth-of-type(2)': {
+      marginLeft: 24,
+    },
+    '& > div:nth-of-type(2) > button:nth-of-type(2) svg': {
+      fontSize: '2rem',
     },
   },
   routeContainer: {
@@ -87,8 +99,10 @@ export default function Router(): JSX.Element {
       <div className={classes.root}>
         <Container maxWidth={false} className={classes.appBar}>
           <div>
-            <AirlineSeatFlatIcon />
-            <Link to="/">Sheepy Hotel</Link>
+            <SheepSvgIcon />
+            <Link to="/">
+              <SheepyHotelSvgIcon />
+            </Link>
           </div>
           <div>
             <Button variant="outlined" color="primary">中文</Button>
