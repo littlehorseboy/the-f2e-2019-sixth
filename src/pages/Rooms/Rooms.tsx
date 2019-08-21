@@ -387,6 +387,7 @@ export default function Main(): JSX.Element {
               Everything you need prepared for you: sheets and blankets, towels,
               soap and shampoo, hairdryer are provided. In the room there is AC and of course WiFi.
             </div>
+
             <div className={classes.cardContainer}>
               <TextField
                 variant="outlined"
@@ -411,7 +412,7 @@ export default function Main(): JSX.Element {
                 helperText="15:00~21:00"
               />
               <FormControl variant="outlined">
-                <InputLabel htmlFor="age-native-simple">Age</InputLabel>
+                <InputLabel>Age</InputLabel>
                 <Select
                   native
                   defaultValue={1}
@@ -424,6 +425,7 @@ export default function Main(): JSX.Element {
                 </Select>
               </FormControl>
             </div>
+
             <div className={classes.cardContainer}>
               <Grid container>
                 <Grid item xs={12} sm={3} md={4}>
