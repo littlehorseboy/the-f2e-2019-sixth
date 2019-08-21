@@ -184,14 +184,6 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
   },
 }));
 
-interface RoomItem {
-  id: string;
-  imageUrl: string;
-  normalDayPrice: number;
-  holidayPrice: number;
-  name: string;
-}
-
 export default function Main(): JSX.Element {
   const classes = useStyles();
 
