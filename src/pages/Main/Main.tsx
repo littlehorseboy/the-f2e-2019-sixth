@@ -66,8 +66,8 @@ const useStyles = makeStyles((theme) => createStyles({
       alignItems: 'center',
       '& > div': {
         width: '100%',
-        minHeight: 415,
-        margin: 70,
+        minHeight: 'calc(615px - 200px)',
+        margin: 100,
         border: '2px solid #FFFFFF',
         color: '#FFFFFF',
         fontSize: 30,
