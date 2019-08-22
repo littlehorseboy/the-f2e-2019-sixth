@@ -21,11 +21,8 @@ import { RoomsItemI } from '../../reducers/rooms/rooms';
 const teaTableImg = require('../../assets/images/teaTable.png');
 /* eslint-enable */
 
-const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer' | 'imagePhotoGrid'
-| 'imagePhoto' | 'cardContainer' | 'verticalImagePhoto' | 'verticalRoomInfoContainer'
-| 'positionText' | 'imagePhotoAside' | 'subTitleContainer' | 'roomInfoContainer'
-| 'roomPriceContainer' | 'brandContainer' | 'footerContainer'
-, CSSProperties | (() => CSSProperties)> => createStyles({
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const useStyles = makeStyles((theme) => createStyles({
   container: {
     '&:not(:last-child)': {
       borderBottom: '1px solid #DCD8D2',
@@ -53,6 +50,33 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
     backgroundPosition: 'center',
     minHeight: 615,
   },
+  imgHover: {
+    '& > div': {
+      width: '100%',
+      minHeight: 615,
+      cursor: 'pointer',
+      backgroundColor: '#3D321F',
+      opacity: 0,
+      transition: 'opacity 0.5s ease',
+      '&:hover': {
+        opacity: 0.6,
+      },
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      '& > div': {
+        width: '100%',
+        minHeight: 415,
+        margin: 70,
+        border: '2px solid #FFFFFF',
+        color: '#FFFFFF',
+        fontSize: 30,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+    },
+  },
   cardContainer: {
     padding: theme.spacing(1.5),
     '&:not(:last-child)': {
@@ -64,11 +88,39 @@ const useStyles = makeStyles((theme): Record<'container' | 'imagePhotoContainer'
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
+  verticalImgHover: {
+    '& > div': {
+      width: '100%',
+      height: '100%',
+      cursor: 'pointer',
+      backgroundColor: '#3D321F',
+      opacity: 0,
+      transition: 'opacity 0.5s ease',
+      '&:hover': {
+        opacity: 0.6,
+      },
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      '& > div': {
+        width: '100%',
+        height: 'calc(100% - 70px)',
+        margin: 35,
+        border: '2px solid #FFFFFF',
+        color: '#FFFFFF',
+        fontSize: 30,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+    },
+  },
   verticalRoomInfoContainer: {
     padding: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    lineHeight: '40px',
     '& > div:nth-child(2) > div:nth-child(2)': {
       textAlign: 'right',
     },
@@ -242,7 +294,14 @@ export default function Main(): JSX.Element {
           {rooms.slice(4, 6).map((room): JSX.Element => (
             <Grid key={room.id} item xs={12} md={6} className={classes.imagePhotoGrid}>
               <div className={classes.cardContainer}>
-                <div className={classes.imagePhoto} style={{ backgroundImage: `url(${room.imageUrl})` }} />
+                <div
+                  className={classNames(classes.imagePhoto, classes.imgHover)}
+                  style={{ backgroundImage: `url(${room.imageUrl})` }}
+                >
+                  <div>
+                    <div>See more</div>
+                  </div>
+                </div>
                 <div className={classes.roomInfoContainer}>
                   <div>{room.name}</div>
                   <div>
@@ -276,7 +335,14 @@ export default function Main(): JSX.Element {
           {rooms.slice(2, 4).map((room): JSX.Element => (
             <Grid key={room.id} item xs={12} md={4} className={classes.imagePhotoGrid}>
               <div className={classes.cardContainer}>
-                <div className={classes.imagePhoto} style={{ backgroundImage: `url(${room.imageUrl})` }} />
+                <div
+                  className={classNames(classes.imagePhoto, classes.imgHover)}
+                  style={{ backgroundImage: `url(${room.imageUrl})` }}
+                >
+                  <div>
+                    <div>See more</div>
+                  </div>
+                </div>
                 <div className={classes.roomInfoContainer}>
                   <div>{room.name}</div>
                   <div>
@@ -310,9 +376,13 @@ export default function Main(): JSX.Element {
               {rooms.slice(0, 2).map((room): JSX.Element => (
                 <div key={room.id} className={classes.cardContainer} style={{ height: '50%', display: 'flex' }}>
                   <div
-                    className={classes.verticalImagePhoto}
+                    className={classNames(classes.verticalImagePhoto, classes.verticalImgHover)}
                     style={{ backgroundImage: `url(${room.imageUrl})`, flexGrow: 1 }}
-                  />
+                  >
+                    <div>
+                      <div>See more</div>
+                    </div>
+                  </div>
                   <div className={classes.verticalRoomInfoContainer}>
                     <div>{room.name}</div>
                     <div>
