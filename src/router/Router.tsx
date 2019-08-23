@@ -12,6 +12,8 @@ import SheepSvgIcon from '../components/icons/SheepSvgIcon/SheepSvgIcon';
 import SheepyHotelSvgIcon from '../components/icons/SheepyHotelSvgIcon/SheepyHotelSvgIcon';
 import Main from '../pages/Main/Main';
 import Rooms from '../pages/Rooms/Rooms';
+import IsLoading from '../components/IsLoading/IsLoading';
+import { loading } from '../actions/isLoading/isLoading';
 import { fetchRooms } from '../actions/rooms/rooms';
 
 const routes = [
@@ -91,6 +93,7 @@ export default function Router(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect((): void => {
+    // dispatch(loading());
     dispatch(fetchRooms());
   }, []);
 
@@ -134,6 +137,7 @@ export default function Router(): JSX.Element {
           ))}
         </div>
 
+        <IsLoading />
       </div>
     </HashRouter>
   );

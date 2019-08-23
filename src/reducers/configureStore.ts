@@ -1,10 +1,12 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { createLogger } from 'redux-logger';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
+import isLoadingReducer from './isLoading/isLoading';
 import roomsReducer from './rooms/rooms';
 import { roomsEpic } from '../actions/rooms/rooms';
 
 const rootReducer = combineReducers({
+  isLoadingReducer,
   roomsReducer,
 });
 

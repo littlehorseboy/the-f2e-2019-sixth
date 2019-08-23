@@ -41,12 +41,14 @@ export const roomsEpic: Epic<roomsActionTypes> = (action$): any => action$.pipe(
         Accept: 'application/json',
       },
     }))
-      .pipe(map((response): FetchRoomsFulfilledI => fetchRoomsFulfilled(
-        response.data.success
-          ? { rooms: response.data.items, loading: false }
-          : { rooms: [], loading: true },
-      )))
-      .pipe(catchError((error): Observable<never> => Observable.throw(error))),
+      .pipe(
+        map((response): FetchRoomsFulfilledI => fetchRoomsFulfilled(
+          response.data.success
+            ? { rooms: response.data.items, loading: false }
+            : { rooms: [], loading: true },
+        )),
+        catchError((error): Observable<never> => Observable.throw(error)),
+      ),
   ),
 );
 
