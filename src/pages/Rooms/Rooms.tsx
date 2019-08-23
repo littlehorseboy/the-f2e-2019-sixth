@@ -11,6 +11,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import CloseIcon from '@material-ui/icons/Close';
 import SheepSmallSvgIcon from '../../components/icons/SheepSmallSvgIcon/SheepSmallSvgIcon';
@@ -412,10 +413,10 @@ export default function Main(): JSX.Element {
                 helperText="15:00~21:00"
               />
               <FormControl variant="outlined">
-                <InputLabel>Age</InputLabel>
                 <Select
                   native
                   defaultValue={1}
+                  input={<OutlinedInput labelWidth={0} name="age" id="outlined-age-simple" />}
                 >
                   <option value={1}>1 adult</option>
                   <option value={2}>2 adult</option>
@@ -447,9 +448,15 @@ export default function Main(): JSX.Element {
             </div>
 
             <div className={classes.cardContainer}>
-              <input />
-              <input />
-              <Button>Reserve</Button>
+              <TextField
+                label="Your Name"
+                variant="outlined"
+              />
+              <TextField
+                label="Phone number"
+                variant="outlined"
+              />
+              <Button variant="contained" color="primary">Reserve</Button>
             </div>
           </Grid>
         </Grid>
