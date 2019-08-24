@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { addMonths, subMonths } from 'date-fns';
+import Calendar from 'react-calendar';
 import classNames from 'classnames';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
@@ -28,12 +28,8 @@ const coffeeSvg = require('../../assets/images/svg/coffee-cup-of-hot-drink-black
 const calendarSvg = require('../../assets/images/svg/calendar.svg');
 /* eslint-enable */
 
-const useStyles = makeStyles((theme): Record<'container' | 'gridButton' | 'imagePhotoContainer' | 'imagePhotoGrid'
-| 'imagePhoto' | 'imagePhoto100' | 'cardContainer' | 'verticalCardContainer' | 'verticalImagePhoto'
-| 'verticalRoomInfoContainer' | 'positionText' | 'imagePhotoAside' | 'subTitleContainer'
-| 'roomInfoContainer' | 'roomPriceContainer' | 'brandContainer' | 'footerContainer'
-| 'roomLeftFirst' | 'roomLeftSecond' | 'roomLeftThird' | 'roomRightArticle'
-, CSSProperties | (() => CSSProperties)> => createStyles({
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const useStyles = makeStyles((theme) => createStyles({
   container: {
     '&:not(:last-child)': {
       borderBottom: '1px solid #DCD8D2',
@@ -256,11 +252,14 @@ const useStyles = makeStyles((theme): Record<'container' | 'gridButton' | 'image
     justifyContent: 'center',
     alignItems: 'center',
     '& > div': {
-      minWidth: 160,
+      minWidth: 250,
       paddingTop: 16,
       paddingBottom: 16,
       display: 'flex',
       justifyContent: 'space-between',
+      [theme.breakpoints.down('sm')]: {
+        minWidth: 160,
+      },
     },
   },
   roomRightArticle: {
@@ -270,6 +269,12 @@ const useStyles = makeStyles((theme): Record<'container' | 'gridButton' | 'image
     '&::first-letter': {
       fontSize: '200%',
     },
+  },
+  calendarContainer: {
+    display: 'flex',
+  },
+  tileClassName: {
+    backgroundColor: 'red',
   },
 }));
 
@@ -429,11 +434,24 @@ export default function Main(): JSX.Element {
 
             <div className={classes.cardContainer}>
               <Grid container>
-                <Grid item xs={12} sm={3} md={4}>
-                  <input type="date" />
-                  <input type="date" />
-                </Grid>
                 <Grid item xs={12} sm={9} md={8}>
+                  <div className={classes.calendarContainer}>
+                    <Calendar
+                      // onChange={this.onChange}
+                      value={new Date()}
+                      locale="en-US"
+                      minDate={subMonths(new Date(), 1)}
+                      maxDate={addMonths(new Date(), 1)}
+                      tileClassName={({ date }): string | null => {
+                        if (date.getDay() === 0) {
+                          return classes.tileClassName;
+                        }
+                        return null;
+                      }}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={3} md={4}>
                   <ul>
                     <li>2019/09/15 ~ 2019/9/17</li>
                     <li>1 adult</li>

@@ -39,10 +39,16 @@ const useStyles = makeStyles((theme): Record<'root' | 'appBar' | 'routeContainer
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
     '& > div:nth-of-type(1)': {
       display: 'flex',
       alignItems: 'center',
       color: '#3D321F',
+      [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+      },
     },
     '& > div:nth-of-type(1) > svg': {
       color: '#3D321F',
