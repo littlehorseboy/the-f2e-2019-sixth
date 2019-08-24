@@ -12,6 +12,7 @@ import SheepSvgIcon from '../components/icons/SheepSvgIcon/SheepSvgIcon';
 import SheepyHotelSvgIcon from '../components/icons/SheepyHotelSvgIcon/SheepyHotelSvgIcon';
 import Main from '../pages/Main/Main';
 import Rooms from '../pages/Rooms/Rooms';
+import ReserveSuccess from '../pages/ReserveSuccess/ReserveSuccess';
 import IsLoading from '../components/IsLoading/IsLoading';
 import { loading } from '../actions/isLoading/isLoading';
 import { fetchRooms } from '../actions/rooms/rooms';
@@ -19,6 +20,7 @@ import { fetchRooms } from '../actions/rooms/rooms';
 const routes = [
   { path: '/', name: 'home', Component: Main },
   { path: '/rooms/:id', name: 'rooms', Component: Rooms },
+  { path: '/reserveSuccess', name: 'reserveSuccess', Component: ReserveSuccess },
 ];
 
 const useStyles = makeStyles((theme): Record<'root' | 'appBar' | 'routeContainer' | 'fade'

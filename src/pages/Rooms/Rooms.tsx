@@ -431,7 +431,7 @@ export default function Rooms(props: PropsI): JSX.Element {
         },
       })
         .then((response): void => {
-          debugger;
+          routeComponentProps.history.push('/reserveSuccess');
         })
         .catch((error): void => {
           console.log(error);
