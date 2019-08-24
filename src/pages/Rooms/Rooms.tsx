@@ -335,35 +335,37 @@ export default function Rooms(props: PropsI): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect((): void => {
-    dispatch(loading());
+    if (routeComponentProps.match) {
+      dispatch(loading());
 
-    Axios({
-      method: 'get',
-      url: `https://challenge.thef2e.com/api/thef2e2019/stage6/room/${routeComponentProps.match.params.id}`,
-      headers: {
-        Authorization: 'Bearer pj6Zo71utSu7169UgLSqS0qLr3sippW2rkISAy9B9DQ8Sd3nTIkNaBVQ9nNJ',
-        Accept: 'application/json',
-      },
-    })
-      .then((response): void => {
-        if (response.data.success) {
-          const findRoom = (response.data.room as RoomI[])
-            .find((r): boolean => r.id === routeComponentProps.match.params.id);
+      Axios({
+        method: 'get',
+        url: `https://challenge.thef2e.com/api/thef2e2019/stage6/room/${routeComponentProps.match.params.id}`,
+        headers: {
+          Authorization: 'Bearer pj6Zo71utSu7169UgLSqS0qLr3sippW2rkISAy9B9DQ8Sd3nTIkNaBVQ9nNJ',
+          Accept: 'application/json',
+        },
+      })
+        .then((response): void => {
+          if (response.data.success) {
+            const findRoom = (response.data.room as RoomI[])
+              .find((r): boolean => r.id === routeComponentProps.match.params.id);
 
-          if (findRoom) {
-            setRoom(findRoom);
+            if (findRoom) {
+              setRoom(findRoom);
+            }
+
+            setBooking(response.data.booking);
           }
-
-          setBooking(response.data.booking);
-        }
-      })
-      .catch((error): void => {
-        console.log(error);
-      })
-      .then((): void => {
-        dispatch(loaded());
-      });
-  }, [routeComponentProps.match.params.id]);
+        })
+        .catch((error): void => {
+          console.log(error);
+        })
+        .then((): void => {
+          dispatch(loaded());
+        });
+    }
+  }, [routeComponentProps.match && routeComponentProps.match.params.id]);
 
   const rooms = useSelector((
     state: storeTypes,
@@ -477,7 +479,10 @@ export default function Rooms(props: PropsI): JSX.Element {
               md={2}
               className={classNames(
                 classes.gridButton,
-                { active: roomItem.id === routeComponentProps.match.params.id },
+                {
+                  active: routeComponentProps.match
+                    && roomItem.id === routeComponentProps.match.params.id,
+                },
               )}
             >
               <Link color="inherit" component={RouterLink} to={`/rooms/${roomItem.id}`}>

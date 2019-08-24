@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => createStyles({
     backgroundPosition: 'center',
   },
   verticalImgHover: {
-    '& > div': {
+    '& > a': {
       width: '100%',
       height: '100%',
       cursor: 'pointer',
