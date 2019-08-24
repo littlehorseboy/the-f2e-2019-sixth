@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { HashRouter, Route, Link } from 'react-router-dom';
+import { HashRouter, Route, Link, RouteComponentProps } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
@@ -18,7 +18,7 @@ import { fetchRooms } from '../actions/rooms/rooms';
 
 const routes = [
   { path: '/', name: 'home', Component: Main },
-  { path: '/rooms', name: 'rooms', Component: Rooms },
+  { path: '/rooms/:id', name: 'rooms', Component: Rooms },
 ];
 
 const useStyles = makeStyles((theme): Record<'root' | 'appBar' | 'routeContainer' | 'fade'
@@ -124,9 +124,9 @@ export default function Router(): JSX.Element {
         <div className={classes.routeContainer}>
           {routes.map(({ path, Component }): JSX.Element => (
             <Route key={path} exact path={path}>
-              {({ match }): JSX.Element => (
+              {(routeComponentProps): JSX.Element => (
                 <CSSTransition
-                  in={match !== null}
+                  in={routeComponentProps.match !== null}
                   timeout={{
                     enter: 300,
                     exit: 100,
@@ -135,7 +135,11 @@ export default function Router(): JSX.Element {
                   unmountOnExit
                 >
                   <div className={classes.fade}>
-                    <Component />
+                    <Component
+                      routeComponentProps={
+                        routeComponentProps as RouteComponentProps<{ id: string }>
+                      }
+                    />
                   </div>
                 </CSSTransition>
               )}

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
 import classNames from 'classnames';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { CSSProperties } from '@material-ui/core/styles/withStyles';
+import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) => createStyles({
     minHeight: 615,
   },
   imgHover: {
-    '& > div': {
+    '& > a': {
       width: '100%',
       minHeight: 615,
       cursor: 'pointer',
@@ -179,7 +180,7 @@ const useStyles = makeStyles((theme) => createStyles({
   },
   roomInfoContainer: {
     padding: theme.spacing(2),
-    '& > div:nth-child(1)': {
+    '& > a:nth-child(1)': {
       fontSize: 27,
       color: '#3D321F',
     },
@@ -298,12 +299,14 @@ export default function Main(): JSX.Element {
                   className={classNames(classes.imagePhoto, classes.imgHover)}
                   style={{ backgroundImage: `url(${room.imageUrl})` }}
                 >
-                  <div>
+                  <Link component={RouterLink} to={`/rooms/${room.id}`}>
                     <div>See more</div>
-                  </div>
+                  </Link>
                 </div>
                 <div className={classes.roomInfoContainer}>
-                  <div>{room.name}</div>
+                  <Link component={RouterLink} to={`/rooms/${room.id}`}>
+                    {room.name}
+                  </Link>
                   <div>
                     <div>
                       {Array(room.name.includes('Single') ? 1 : 2).fill(null).map((): JSX.Element => (
@@ -339,12 +342,12 @@ export default function Main(): JSX.Element {
                   className={classNames(classes.imagePhoto, classes.imgHover)}
                   style={{ backgroundImage: `url(${room.imageUrl})` }}
                 >
-                  <div>
+                  <Link component={RouterLink} to={`/rooms/${room.id}`}>
                     <div>See more</div>
-                  </div>
+                  </Link>
                 </div>
                 <div className={classes.roomInfoContainer}>
-                  <div>{room.name}</div>
+                  <Link component={RouterLink} to={`/rooms/${room.id}`}>{room.name}</Link>
                   <div>
                     <div>
                       {Array(room.name.includes('Single') ? 1 : 2).fill(null).map((): JSX.Element => (
@@ -379,12 +382,12 @@ export default function Main(): JSX.Element {
                     className={classNames(classes.verticalImagePhoto, classes.verticalImgHover)}
                     style={{ backgroundImage: `url(${room.imageUrl})`, flexGrow: 1 }}
                   >
-                    <div>
+                    <Link component={RouterLink} to={`/rooms/${room.id}`}>
                       <div>See more</div>
-                    </div>
+                    </Link>
                   </div>
                   <div className={classes.verticalRoomInfoContainer}>
-                    <div>{room.name}</div>
+                    <Link component={RouterLink} to={`/rooms/${room.id}`}>{room.name}</Link>
                     <div>
                       <div>
                         {Array(room.name.includes('Single') ? 1 : 2).fill(null).map((): JSX.Element => (
