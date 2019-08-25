@@ -183,7 +183,10 @@ const useStyles = makeStyles((theme) => createStyles({
     },
   },
   roomRightArticle: {
-    fontSize: 22,
+    fontSize: 14,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 22,
+    },
     lineHeight: '48px',
     '&::first-letter': {
       fontSize: '200%',
