@@ -1,42 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link as RouterLink, RouteComponentProps } from 'react-router-dom';
-import Axios from 'axios';
-import range from 'lodash/range';
-import {
-  format, addDays, addMonths, isSameDay,
-} from 'date-fns';
-import Calendar from 'react-calendar';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import uuidv4 from 'uuid/v4';
 import classNames from 'classnames';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import CloseIcon from '@material-ui/icons/Close';
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import SheepSmallSvgIcon from '../../components/icons/SheepSmallSvgIcon/SheepSmallSvgIcon';
 import SheepWhiteSvgIcon from '../../components/icons/SheepWhiteSvgIcon/SheepWhiteSvgIcon';
 import { storeTypes } from '../../reducers/configureStore';
-import { RoomsItemI } from '../../reducers/rooms/rooms';
-import { loading, loaded } from '../../actions/isLoading/isLoading';
-import ManSvgIcon from '../../components/icons/ManSvgIcon/ManSvgIcon';
-import BedSvgIcon from '../../components/icons/BedSvgIcon/BedSvgIcon';
+import { ReserveSuccessI } from '../../reducers/reserveSuccess/reserveSuccess';
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const manSvg = require('../../assets/images/svg/standing-up-man-.svg');
 const bedSvg = require('../../assets/images/svg/bed.svg');
-const showerSvg = require('../../assets/images/svg/shower.svg');
-const wifiSvg = require('../../assets/images/svg/wifi.svg');
-const coffeeSvg = require('../../assets/images/svg/coffee-cup-of-hot-drink-black-silhouette.svg');
-const calendarSvg = require('../../assets/images/svg/calendar.svg');
 /* eslint-enable */
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -50,24 +28,6 @@ const useStyles = makeStyles((theme) => createStyles({
       paddingRight: theme.spacing(9),
     },
   },
-  gridButton: {
-    fontFamily: 'Regular',
-    fontSize: 20,
-    border: '1px solid #DCD8D2',
-    display: 'flex',
-    color: '#3D321F',
-    '&.active': {
-      color: '#FFFFFF',
-      backgroundColor: '#3D321F',
-    },
-    '& > a': {
-      textAlign: 'center',
-      width: '100%',
-      height: '100%',
-      paddingTop: 48,
-      paddingBottom: 48,
-    },
-  },
   imagePhotoContainer: {
     borderLeft: '1px solid #DCD8D2',
     borderRight: '1px solid #DCD8D2',
@@ -78,14 +38,6 @@ const useStyles = makeStyles((theme) => createStyles({
   borderRightGrid: {
     '&:not(:last-child)': {
       borderRight: '1px solid #DCD8D2',
-    },
-  },
-  imagePhoto: {
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    minHeight: 615,
-    [theme.breakpoints.up('md')]: {
-      minHeight: 1000,
     },
   },
   cardContainer: {
@@ -157,109 +109,12 @@ const useStyles = makeStyles((theme) => createStyles({
       marginRight: 8,
     },
   },
-  roomLeftFirst: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& > div': {
-      paddingTop: 16,
-      paddingBottom: 16,
-      textAlign: 'center',
-      flexBasis: '50%',
-      '&:first-child': {
-        flexBasis: '100%',
-        fontSize: 26,
-      },
-      '&:last-child > div:first-child': {
-        fontSize: 32,
-        fontWeight: 'bold',
-      },
-      '& > div:nth-child(2)': {
-        color: '#888888',
-      },
-    },
-  },
-  roomLeftSecond: {
-    paddingTop: 32,
-    paddingBottom: 32,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    '& > div > div': {
-      paddingTop: 16,
-      paddingBottom: 16,
-      '& > img': {
-        marginRight: 24,
-      },
-    },
-  },
-  roomLeftThird: {
-    paddingTop: 40,
-    paddingBottom: 32,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    '& > div': {
-      minWidth: 250,
-      paddingTop: 16,
-      paddingBottom: 16,
-      display: 'flex',
-      justifyContent: 'space-between',
-      [theme.breakpoints.down('sm')]: {
-        minWidth: 160,
-      },
-    },
-  },
   roomRight: {
     padding: 48,
     '&:not(:last-child)': {
       [theme.breakpoints.up('md')]: {
         borderRight: '1px solid #DCD8D2',
       },
-    },
-  },
-  roomRightArticle: {
-    fontSize: 18,
-    lineHeight: '32px',
-    '&::first-letter': {
-      fontSize: '200%',
-    },
-  },
-  calendarContainer: {
-    display: 'flex',
-  },
-  calendar: {
-    backgroundColor: 'transparent',
-    border: 'none',
-    '& > .react-calendar__navigation': {
-      '& > button.react-calendar__navigation__arrow': {
-        border: '1px solid #707070',
-        borderRadius: 1,
-      },
-    },
-  },
-  tileClassNameNormal: {
-    backgroundColor: '#FFFFFF',
-  },
-  tileClassNameActive: {
-    color: '#FFFFFF',
-    backgroundColor: '#3D321F',
-    '&.react-calendar__tile--active': {
-      '&:hover, &:focus': {
-        backgroundColor: '#3D321F',
-      },
-    },
-  },
-  tileClassNameReserved: {
-    backgroundColor: '#D0D0D0',
-  },
-  receiptContainer: {
-    '& > ul': {
-      lineHeight: '48px',
-      paddingTop: 32,
-      paddingBottom: 32,
-      borderBottom: '1px solid #DCD8D2',
     },
   },
   priceContainer: {
@@ -288,82 +143,14 @@ const useStyles = makeStyles((theme) => createStyles({
   },
 }));
 
-interface RoomI {
-  amenities: {
-    'Air-Conditioner': boolean;
-    Breakfast: boolean;
-    'Child-Friendly': boolean;
-    'Great-View': boolean;
-    'Mini-Bar': boolean;
-    'Pet-Friendly': boolean;
-    Refrigerator: boolean;
-    'Room-Service': boolean;
-    'Smoke-Free': boolean;
-    Sofa: boolean;
-    Television: boolean;
-    'Wi-Fi': boolean;
-  };
-  checkInAndOut: {
-    checkInEarly: string;
-    checkInLate: string;
-    checkOut: string;
-  };
-  description: string;
-  descriptionShort: {
-    Bed: 'Double'[];
-    Footage: number;
-    GuestMax: number;
-    GuestMin: number;
-    'Private-Bath': number;
-  };
-  id: string;
-  imageUrl: string[];
-  name: string;
-  normalDayPrice: number;
-  holidayPrice: number;
-}
-
-export default function ReserveSuccess(): JSX.Element {
+function ReserveSuccess(props: RouteComponentProps): JSX.Element {
   const classes = useStyles();
 
-  const [room, setRoom] = useState<RoomI>({
-    amenities: {
-      'Air-Conditioner': false,
-      Breakfast: false,
-      'Child-Friendly': false,
-      'Great-View': false,
-      'Mini-Bar': false,
-      'Pet-Friendly': false,
-      Refrigerator: false,
-      'Room-Service': false,
-      'Smoke-Free': false,
-      Sofa: false,
-      Television: false,
-      'Wi-Fi': false,
-    },
-    checkInAndOut: {
-      checkInEarly: '',
-      checkInLate: '',
-      checkOut: '',
-    },
-    description: '',
-    descriptionShort: {
-      Bed: [],
-      Footage: 0,
-      GuestMax: 0,
-      GuestMin: 0,
-      'Private-Bath': 0,
-    },
-    id: '',
-    imageUrl: [],
-    name: '',
-    normalDayPrice: 0,
-    holidayPrice: 0,
-  });
+  const { history } = props;
 
-  const rooms = useSelector((
+  const reserveReceipt = useSelector((
     state: storeTypes,
-  ): RoomsItemI[] => state.roomsReducer.rooms);
+  ): ReserveSuccessI => state.reserveSuccessReducer);
 
   return (
     <>
@@ -384,22 +171,26 @@ export default function ReserveSuccess(): JSX.Element {
               <div className={classes.rightPane}>
                 <Grid container spacing={10}>
                   <Grid item xs={12} md={4}>
-                    Ref No. 20190825001
+                    {`Ref No. ${reserveReceipt.refNo}`}
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <ul>
-                      <li>123</li>
-                      <li>223</li>
-                      <li>1 night</li>
+                      <li>{reserveReceipt.reserveDate}</li>
+                      <li>{`${reserveReceipt.guestCount} adult`}</li>
+                      <li>{`${reserveReceipt.nightCount} nights`}</li>
+                      <li>Free wifi</li>
+                      <li>Breakfast include</li>
                     </ul>
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <div>
                       <div>
-                        <img src={manSvg} alt="man" />
+                        {Array(reserveReceipt.guestCount).fill(null).map((): JSX.Element => (
+                          <img key={uuidv4()} src={manSvg} alt="man" />
+                        ))}
                       </div>
                       <div>
-                        1 person
+                        {`${reserveReceipt.guestCount} person`}
                       </div>
                     </div>
                     <div>
@@ -407,7 +198,7 @@ export default function ReserveSuccess(): JSX.Element {
                         <img src={bedSvg} alt="bed" />
                       </div>
                       <div>
-                        1 single bed
+                        {reserveReceipt.bed}
                       </div>
                     </div>
                   </Grid>
@@ -416,21 +207,20 @@ export default function ReserveSuccess(): JSX.Element {
 
               <div className={classes.priceContainer}>
                 <sub>$</sub>
-                <span>2780</span>
+                <span>{reserveReceipt.price}</span>
               </div>
             </div>
 
             <div className={classNames(classes.cardContainer, classes.roomRight)}>
               <Grid container justify="center">
-                <Link component={RouterLink} to="/">
-                  <Button
-                    className={classes.backButton}
-                    variant="outlined"
-                    color="primary"
-                  >
-                    Back
-                  </Button>
-                </Link>
+                <Button
+                  className={classes.backButton}
+                  variant="outlined"
+                  color="primary"
+                  onClick={(): void => history.goBack()}
+                >
+                  Back
+                </Button>
               </Grid>
             </div>
           </Grid>
@@ -450,3 +240,5 @@ export default function ReserveSuccess(): JSX.Element {
     </>
   );
 }
+
+export default withRouter(ReserveSuccess);

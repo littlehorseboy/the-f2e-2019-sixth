@@ -4,10 +4,12 @@ import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import isLoadingReducer from './isLoading/isLoading';
 import roomsReducer from './rooms/rooms';
 import { roomsEpic } from '../actions/rooms/rooms';
+import reserveSuccessReducer from './reserveSuccess/reserveSuccess';
 
 const rootReducer = combineReducers({
   isLoadingReducer,
   roomsReducer,
+  reserveSuccessReducer,
 });
 
 const rootEpic = combineEpics(roomsEpic);

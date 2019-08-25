@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink, RouteComponentProps } from 'react-router-dom';
+import uuidv4 from 'uuid/v4';
 import Axios from 'axios';
 import range from 'lodash/range';
 import {
@@ -26,6 +27,7 @@ import SheepSmallSvgIcon from '../../components/icons/SheepSmallSvgIcon/SheepSma
 import { storeTypes } from '../../reducers/configureStore';
 import { RoomsItemI } from '../../reducers/rooms/rooms';
 import { loading, loaded } from '../../actions/isLoading/isLoading';
+import { reserveSuccess } from '../../actions/reserveSuccess/reserveSuccess';
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const manSvg = require('../../assets/images/svg/standing-up-man-.svg');
@@ -50,6 +52,9 @@ const useStyles = makeStyles((theme) => createStyles({
   gridButton: {
     fontFamily: 'Regular',
     fontSize: 20,
+    [theme.breakpoints.up('md')]: {
+      fontSize: 24,
+    },
     border: '1px solid #DCD8D2',
     display: 'flex',
     color: '#3D321F',
@@ -178,8 +183,8 @@ const useStyles = makeStyles((theme) => createStyles({
     },
   },
   roomRightArticle: {
-    fontSize: 18,
-    lineHeight: '32px',
+    fontSize: 22,
+    lineHeight: '48px',
     '&::first-letter': {
       fontSize: '200%',
     },
@@ -267,7 +272,7 @@ interface RoomI {
   };
   description: string;
   descriptionShort: {
-    Bed: 'Double'[];
+    Bed: string[];
     Footage: number;
     GuestMax: number;
     GuestMin: number;
@@ -431,6 +436,16 @@ export default function Rooms(props: PropsI): JSX.Element {
         },
       })
         .then((response): void => {
+          dispatch(reserveSuccess({
+            refNo: format(new Date(), 'yyyyMMdd') + uuidv4(),
+            reserveDate: `${format(calendarDate, 'yyyy/MM/dd')} ~ ${format(addDays(calendarDate, 1), 'yyyy/MM/dd')}`,
+            guestCount: numberOfAdults,
+            nightCount: 1,
+            bed: room.descriptionShort.Bed.join(','),
+            price: [6, 0].includes(calendarDate.getDay())
+              ? room.holidayPrice
+              : room.normalDayPrice,
+          }));
           routeComponentProps.history.push('/reserveSuccess');
         })
         .catch((error): void => {
