@@ -181,7 +181,7 @@ const useStyles = makeStyles((theme) => createStyles({
   roomInfoContainer: {
     padding: theme.spacing(2),
     '& > a:nth-child(1)': {
-      fontSize: 27,
+      fontSize: 20,
       color: '#3D321F',
     },
     '& > div:nth-child(2)': {
